@@ -4,17 +4,19 @@ class Authors(object):
   def __init__(self) -> None:
     '''constructor for the class.'''
     
-  def search_scholar(self, ):
+  def search_scholar(self, query: str ):
     '''search author from google scholar...'''
     search = GoogleSearch({
         "engine": "google_scholar",
-        "q": "nlp",
+        "q": query,
         "author": "Mercy Mpinganjira",
         "location": "south africa",
         "api_key": "623e7e74cde13a07079ea444adbbb7b0fd7070796b34b061e21fc1be638c7c9b"
       })
     result = search.get_dict()
-    return result['organic_results']
+    if 'organic_results' in result.keys and result['organic_results']:
+      return result['organic_results']
+    else: return None
 
   def search_author(self, author_id: str ):
     '''search result by author'''
@@ -34,5 +36,8 @@ class Authors(object):
     }
     search = GoogleSearch(params)
     results = search.get_dict()
-    profiles = results["profiles"]
-    return profiles
+    if "profiles" in results.keys():
+      profiles = results["profiles"]
+      return profiles
+    else: 
+      return None
