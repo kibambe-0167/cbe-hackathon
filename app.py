@@ -13,7 +13,7 @@ _data_viz: DataViz = DataViz()
 
 
 # 
-head_col_1, head_col_2, head_col_3, head_col_4 = st.columns([2,1,1,1])
+head_col_1, head_col_2, head_col_3, head_col_4, head_col_5, head_col_6 = st.columns([2,1,1,1,1,1])
 
 with head_col_1:
     st.subheader("CBE Hackathon | Team X")
@@ -27,7 +27,11 @@ with head_col_3:
 with head_col_4:
     add_research = st.button("Add Research To DB")
     
+with head_col_5:
+    btn_show_cluster = st.button("Show Research Clusters")
     
+with head_col_6:
+    btn_show_cluster_year = st.button("Number Of Research Per Clusters")
 
 
 
@@ -149,25 +153,46 @@ with st.container():
     # 
     # ---- add research to database ---
     if add_research:
-        st.write("Add Research To Db")
-        
+        st.write("Add Research To Db. Not Complete.")
         
     # --- show number of citations per year ---
     if btn_show_cite_year:
         st.write("### Citations per Year From DB")
         dviz_col1, dviz_col2, dviz_col3 = st.columns([1,1,1])
         ds = _data_viz.cite_year_title()
-        fig, ax = plt.subplots(figsize=(8,5))
+        fig, ax = plt.subplots(figsize=(8,4))
         sns.barplot(data=ds, x="year", y="cited", order=sorted(ds['year'].unique()) )
         plt.title("Number Of Citations Per Year")
         plt.xlabel("Year Of Publication")
         plt.ylabel("Number Of Citations")
-        with dviz_col1:
-            st.pyplot(plt)
+        st.pyplot(plt)
+        # with dviz_col1:
+        #     st.pyplot(plt)
             
-        with dviz_col2:
-            st.pyplot(plt)
+        # with dviz_col2:
+        #     st.pyplot(plt)
             
-        with dviz_col3:
-            st.pyplot(plt)
+        # with dviz_col3:
+        #     st.pyplot(plt)
     
+    if btn_show_cluster:
+        st.write("### Cluster Analysis Of Citations From DB")
+        ddd = _data_viz.cluster_ex()
+        fig, ax = plt.subplots(figsize=(8,4))
+        sns.countplot(data=ddd, y="keyword" )
+        plt.title("Frequency Of Topic Research")
+        plt.xlabel("Research Topic")
+        plt.ylabel("Count Of Articles")
+        plt.show()
+        st.pyplot(plt)
+        
+    if btn_show_cluster_year:
+        st.write("### Cluster Analysis Of Citations From DB Per")
+        ddd = _data_viz.cluster_ex()
+        fig, ax = plt.subplots(figsize=(10,4))
+        sns.barplot(data=ddd, x="year", y="cited",order=sorted(ddd['year'].unique()), hue='keyword')
+        plt.title("Number Of Articles Per Year With Research Topic")
+        plt.xlabel("Year")
+        plt.ylabel("Citations")
+        plt.show()
+        st.pyplot(plt)
