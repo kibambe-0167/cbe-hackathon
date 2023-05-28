@@ -1,12 +1,15 @@
 import streamlit as st
 from services.authors import Authors
+from services.data_viz import DataViz
 import matplotlib.pyplot as plt
 import base64
+import seaborn as sns
 
 
 # objects and configs.
 st.set_page_config(page_title="Team X", layout="wide")
 _authors: Authors = Authors()
+_data_viz: DataViz = DataViz()
 
 
 # 
@@ -19,10 +22,13 @@ with head_col_2:
     btn_upload_research = st.button("Upload Research")
     
 with head_col_3:
-    st.button("Option")
+    btn_show_cite_year = st.button("Show Citations Per Year")
     
 with head_col_4:
     add_research = st.button("Add Research To DB")
+    
+    
+
 
 
 with st.container():
@@ -144,3 +150,25 @@ with st.container():
     # ---- add research to database ---
     if add_research:
         st.write("Add Research To Db")
+        
+        
+    # --- show number of citations per year ---
+    if btn_show_cite_year:
+        st.write("### Citations per Year From DB")
+        dviz_col1, dviz_col2, dviz_col3 = st.columns([1,1,1])
+        ds = _data_viz.cite_year_title()
+        fig, ax = plt.subplots(figsize=(8,5))
+        sns.barplot(data=ds, x="year", y="cited", order=sorted(ds['year'].unique()) )
+        plt.title("Number Of Citations Per Year")
+        plt.xlabel("Year Of Publication")
+        plt.ylabel("Number Of Citations")
+        # plt.show()
+        with dviz_col1:
+            st.pyplot(plt)
+            
+        with dviz_col2:
+            st.pyplot(plt)
+            
+        with dviz_col3:
+            st.pyplot(plt)
+    
