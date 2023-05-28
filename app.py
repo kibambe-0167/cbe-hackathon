@@ -1,15 +1,29 @@
 import streamlit as st
 from services.authors import Authors
 import matplotlib.pyplot as plt
+import base64
 
 
 # objects and configs.
-st.set_page_config(page_title="Team XX", layout="wide")
+st.set_page_config(page_title="Team X", layout="wide")
 _authors: Authors = Authors()
 
 
 # 
-st.subheader("CBE Hackathon | Team XX")
+head_col_1, head_col_2, head_col_3, head_col_4 = st.columns([2,1,1,1])
+
+with head_col_1:
+    st.subheader("CBE Hackathon | Team XX")
+    
+with head_col_2:
+    btn_upload_research = st.button("Upload Research")
+    
+with head_col_3:
+    st.button("Option")
+    
+with head_col_4:
+    add_research = st.button("Add Research To DB")
+
 
 with st.container():
     st.write("---")
@@ -23,13 +37,14 @@ with st.container():
     cite_comp_left, cite_comp_right = st.columns([1, 2]) 
 
     with search_comp_left:
-        author_names = st.text_input("Enter Author's Names")
+        author_names = st.text_input("Enter Author's Names To Search")
     
     with search_comp_right:
         st.write("##")
         search_btn_clicked = st.button("Search")
     
     if search_btn_clicked:
+        btn_upload_research = None
         author = _authors.get_author_profile(author_names)
         
         if author:
@@ -51,6 +66,7 @@ with st.container():
             # 'author', 'articles', 'cited_by', 'co_authors'
             # 
             # --- articles ---
+            # print(author_by_id['articles'])
             st.write("---")
             for article in author_by_id['articles']:
                 if article['title']:
@@ -93,5 +109,38 @@ with st.container():
             
         else:
             st.write("### Author Not Found")
-            
     
+    # 
+    # 
+    # 
+    if btn_upload_research:
+        # st.write("Upload Research Document")
+        # uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
+
+        # if uploaded_file:
+        #     pdf_contents = uploaded_file.read()
+        #     print(pdf_contents)
+
+        #     # st.write("File name:", uploaded_file.name)
+        #     # st.write("File size:", uploaded_file.size, "bytes")
+
+        #     # st.write("PDF contents:")
+        #     # st.write(pdf_contents)
+        
+        uploaded = st.file_uploader("Please browse for a pdf file", type="pdf")
+        print(uploaded)
+        if uploaded is None:
+            st.stop()
+
+        base64_pdf = base64.b64encode(uploaded.read()).decode("utf-8")
+        pdf_display = (
+            f'<embed src="data:application/pdf;base64,{base64_pdf}" '
+            'width="800" height="1000" type="application/pdf"></embed>'
+        )
+        st.markdown(pdf_display, unsafe_allow_html=True)
+
+
+    # 
+    # ---- add research to database ---
+    if add_research:
+        st.write("Add Research To Db")

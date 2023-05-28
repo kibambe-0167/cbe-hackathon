@@ -1,4 +1,23 @@
 from serpapi import GoogleSearch
+import json
+
+file_path = "./articles.json"
+def write_dict_file(data):
+  d = load_data_file()
+  if d:
+    d.extend(data)
+    with open(file_path , "w") as file: json.dump(d, file)
+    return True
+  else: 
+    with open(file_path , "w") as file: json.dump(data, file)
+    return True
+
+def load_data_file():
+  '''load current data and append new data'''
+  data = None
+  with open(file_path) as file:
+      data = json.load(file)
+  return data
 
 class Authors(object):
   def __init__(self) -> None:
@@ -26,6 +45,9 @@ class Authors(object):
       "api_key":"623e7e74cde13a07079ea444adbbb7b0fd7070796b34b061e21fc1be638c7c9b"
     })
     result = search.get_dict()
+    
+    if 'articles' in result.keys():
+      write_dict_file(result['articles'])
     return result
 
   def get_author_profile(self, names: str):
