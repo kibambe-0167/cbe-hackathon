@@ -16,7 +16,7 @@ _data_viz: DataViz = DataViz()
 head_col_1, head_col_2, head_col_3, head_col_4 = st.columns([2,1,1,1])
 
 with head_col_1:
-    st.subheader("CBE Hackathon | Team XX")
+    st.subheader("CBE Hackathon | Team X")
     
 with head_col_2:
     btn_upload_research = st.button("Upload Research")
@@ -162,7 +162,6 @@ with st.container():
         plt.title("Number Of Citations Per Year")
         plt.xlabel("Year Of Publication")
         plt.ylabel("Number Of Citations")
-        # plt.show()
         with dviz_col1:
             st.pyplot(plt)
             
