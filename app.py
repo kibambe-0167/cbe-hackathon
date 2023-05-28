@@ -59,7 +59,7 @@ with st.container():
                 st.write("###")
                 # st.write("Filter")
                 option = st.selectbox("Filter By", ["Year", "Cites", "Title"])
-                print(option)
+                # print(option)
             
             st.write("Cited By", author[0]['cited_by'], "\t | \t", author[0]['email'], "\t | \t", author[0]['link'], " | ", author_by_id['author']['affiliations'] )
             # 
@@ -128,7 +128,7 @@ with st.container():
         #     # st.write(pdf_contents)
         
         uploaded = st.file_uploader("Please browse for a pdf file", type="pdf")
-        print(uploaded)
+        # print(uploaded)
         if uploaded is None:
             st.stop()
 
