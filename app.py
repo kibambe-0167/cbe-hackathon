@@ -13,7 +13,7 @@ _data_viz: DataViz = DataViz()
 
 
 # 
-head_col_1, head_col_2, head_col_3, head_col_4, head_col_5, head_col_6 = st.columns([2,1,1,1,1,1])
+head_col_1, head_col_2, head_col_3, head_col_4, head_col_5, head_col_6, head_col_7 = st.columns([2,1,1,1,1,1,1])
 
 with head_col_1:
     st.subheader("CBE Hackathon | Team X")
@@ -32,6 +32,9 @@ with head_col_5:
     
 with head_col_6:
     btn_show_cluster_year = st.button("Number Of Research Per Clusters")
+    
+with head_col_7:
+    btn_show_future_plans = st.button("Future Plans")
 
 
 
@@ -196,3 +199,9 @@ with st.container():
         plt.ylabel("Citations")
         plt.show()
         st.pyplot(plt)
+        
+    if btn_show_future_plans:
+        st.write("## Future Plans For This Project")
+        st.write("#### --- Strategy makers being able to, monitor how a lecturer is balancing between teaching and research.")
+        st.write("#### --- Provide a platform to Peer review research papers in house, following provided metric, such as minimun of 2 peer review, contains the ISBN number. this will enable easy process of research admin work.")
+        st.write("#### --- Researching having an easy way to register on the platform, by uploading the research document or a link to online article, the website will craw and store only relevant information.")
